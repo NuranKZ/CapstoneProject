@@ -538,5 +538,3 @@ Model metrics and 1-step forecast is shown below:
 - An important factor is that if in the data the financial statements are entered on the corresponding dates of the beginning of the quarters, then in real life there is a significant time lag between the date of the beginning of the quarter and the date of the actual publication of fs, which is not accounted for in the data.
 
 Thus, based on the research of this notebook and the data used here, we can say that the impact of quarterly financial statements can not be used effectively in training the model on daily quotes.
-
-<img src="pics/0_3.png" width="800"/> 
