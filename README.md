@@ -51,14 +51,14 @@ The main stages of research are located in ipynb files and are made in the class
 
 - `S7_RNN_FS.ipynb` (RNN with financial statement data added)
 
-Each file begins with a description of the algorithms and functions used, limitations and features of the launch, etc. Also, many cells are accompanied by comments, so it is recommended to read these files for detailed study of all aspects of the project. I also used my functions, which are placed in the `project_lib.py file`. Besides brief description in notebooks, each function has docstring. As it was mentioned before, this project is a research project, so there are no files with automatic code launch and/or own web-interface in the project.
+Each file begins with a description of the algorithms and functions used, limitations and features of the launch, etc. Also, many cells are accompanied by comments, so it is recommended to read these files for detailed study of all aspects of the project. I also used my functions, which are placed in the `project_lib.py`. Besides brief description in notebooks, each function has docstring. As it was mentioned before, this project is a research project, so there are no files with automatic code launch and/or own web-interface.
 
 The data that were downloaded weigh about 280 megabytes and represent a collection of more than 10 000 files. As the project progresses, derived files such as merged tables, dictionaries and models are also generated. As a result, the total files size increases to ~ 600 Mb. So, I have placed all these files (archived versions) on a Google drive, which can be accessed via this [link](https://drive.google.com/open?id=11Zw-DvNbpc_lc3kj4AFzwESaKZ6Rs-0M).  
 
 <img src="pics/0_2.png" width="700"/>  
 
 If necessary, all the files must be unpacked to the root folder of the project, saving the structure that is in the 
-archive. The structure of the project with data looks like this:  
+archive. The structure of the project folders with data looks like this:  
 
 <img src="pics/0_1.png" width="300"/>    
 
@@ -177,7 +177,7 @@ At this stage, only data with normalized prices were used as time series. Despit
 
 At this stage, two models are compared: RNN from the previous step, which accepts only time series and date data input, and RNN, which is added to the financial statements.  
 
-In this case, RNN from the previous step is presented in an optimized version with changed hyperparameters. Only one company was selected due to the availability of data. Please see important disclaimer about that in S7_RNN_FS.ipynb. 
+In this case, RNN from the previous step is presented in an optimized version with changed hyperparameters. Only one company was selected due to the availability of data. Please see important disclaimer about that in `S7_RNN_FS.ipynb`. 
 
 Basic steps:
 
@@ -224,7 +224,7 @@ This stage takes several steps and realized in `S1_DataScrapping.ipynb` and `S2_
 
 - available time period
 
-  - It is normal, that companies can delisted or created at any date in considered timeline. The main task: to select a time interval that will contain a large number of companies, while not being too short.
+  - It is normal, that companies can be delisted or created at any date in considered timeline. The main task: to select a time interval that will contain a large number of companies, while not being too short.
   
   - The optimum chosen period is from 2016-01-04 to 2020-01-06, the number of companies whose quotations are available in this period is ~ 6,900.
   
@@ -256,22 +256,22 @@ All code lines for this stage - in `S4_EDA_Clustering.ipynb`
 After some processing of Profiles, two versions of data grouping were formed: by sector and exchange.
 
 
-<img src="pics/4_1.png" width="600"/> 
+<img src="pics/4_1.png" width="750"/> 
 
 
 Visual look of companies Net Price Margins dynamics inside the groups with monthly rolling mean:
 
-<img src="pics/4_3.png" width="700"/> 
+<img src="pics/4_3.png" width="750"/> 
 
-<img src="pics/4_4.png" width="650"/>
+<img src="pics/4_4.png" width="700"/>
 
 Next, the so-called composites for each formed group were formed, calculated as a median value for each period of time and the corresponding values of interquartile range (q25 - q75) for visual analysis of the composite dynamics.
 
 The width of the boundaries of the interquartile range indicates the degree of homogeneity of companies in the group. In the case of the sets under consideration, I chose a sector in which the groups are more homogeneous. The several examples of visualization are presented below.
 
-<img src="pics/4_6.png" width="570"/>
-<img src="pics/4_7.png" width="570"/>
-<img src="pics/4_8.png" width="570"/>
+<img src="pics/4_6.png" width="650"/>
+<img src="pics/4_7.png" width="650"/>
+<img src="pics/4_8.png" width="650"/>
 
 As a result, 12 clusters were formed, covering the entire sample of companies.
 
@@ -305,15 +305,15 @@ Since this method is not a standard one, all steps of its implementation will be
 
 An example of a visualization of such a graph is below:
 
-<img src="pics/4_11.png" width="600"/> 
+<img src="pics/4_11.png" width="700"/> 
 
 The advantages of this approach over grouping by sector are that the relationship or homogeneity of the companies included in the cluster is taken into account more explicitly in time series, as well as the fact that the centre of the cluster is taken not a certain derivative index (Composite Median), but a specific company. One of the drawbacks is a weak coverage of the entire sample. 
 
 As can be seen from several examples, the inter-apartment spreads of the formed clusters repeat the cluster centres quite well.
 
-<img src="pics/4_12.png" width="550"/> 
-<img src="pics/4_13.png" width="550"/> 
-<img src="pics/4_14.png" width="550"/> 
+<img src="pics/4_12.png" width="650"/> 
+<img src="pics/4_13.png" width="650"/> 
+<img src="pics/4_14.png" width="650"/> 
 
 So, 2 groups of clusters were formed for modeling and testing time series: 
 - on the basis of grouping by sectors (12 clusters) 
@@ -325,22 +325,22 @@ As first step, for a randomly selected composite (Financial sector), trial model
 - optimal SARIMAX params: (0-0-0) - (1-0-1-1)
 - R2 for 1-step forecast on TEST data - 1.4%
 
-<img src="pics/5_1.png" width="600"/> 
+<img src="pics/5_1.png" width="700"/> 
 
 As expected, the use of profitability indicators (NetPriceMargin) distributed around 0 does not allow achieving quality models. Therefore, it was decided to move to the modelling of normalized base prices, which are mostly non-stationary (based on ADF-tests), have trends and cycles, have strong autocorrelation dependence (based on ACF and PACF), and differ from each other. 
 
-<img src="pics/5_2.png" width="600"/>
+<img src="pics/5_2.png" width="650"/>
 
 We can also talk about some stability of the variation.
-<img src="pics/5_3.png" width="600"/>
+<img src="pics/5_3.png" width="650"/>
 
 
 For each time series, a different configuration of optimal hyperparameters was selected, after all, models were trained and saved in the table.
 
 In general, short-term forecasts showed high values of R2 metrics: from 0.86 to 0.97. For long-term forecasts (216 days), all indicators are unsatisfactory. The graphs below illustrate this.
 
-<img src="pics/5_4.png" width="650"/>
-<img src="pics/5_5.png" width="650"/>
+<img src="pics/5_4.png" width="700"/>
+<img src="pics/5_5.png" width="700"/>
 
 The chart below shows the density of r2 scores for two cluster sets.
 
@@ -451,7 +451,7 @@ The final part of the project is implemented in `S7_RNN_FS.ipynb` and consists o
 - model training without FS 
 - model training with FS. 
 
-So why teach the model without FS again, when you can load the already trained model from the previous step? 
+So why we need re-fit the model without FS again, when we can load and use the already trained model from the previous step? 
 
 
 In the previous part, we got r2 for trained models, which were slightly inferior to ARIMA models' metrics. However, in this case, I made a reservation that the used hyperparameters for RNN were not optimal (due to time constraints I used unified architecture for all models). Taking into account that in this part all training will be conducted based on only one company - NBTB, retraining of the model will not take a lot of time, and in the end, it will be possible to compare metrics more objectively.
