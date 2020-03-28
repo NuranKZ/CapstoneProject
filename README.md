@@ -538,3 +538,42 @@ Model metrics and 1-step forecast is shown below:
 - An important factor is that if in the data the financial statements are entered on the corresponding dates of the beginning of the quarters, then in real life there is a significant time lag between the date of the beginning of the quarter and the date of the actual publication of fs, which is not accounted for in the data.
 
 Thus, based on the research of this notebook and the data used here, we can say that the impact of quarterly financial statements can not be used effectively in training the model on daily quotes.
+
+## Conclusions
+
+- Quotation time series of companies are well suited for creating predictive models using both ARIMA algorithms and recursive neural networks.
+
+
+- The models' predictive capabilities work well only on short-term forecasts.
+
+
+- RNN and ARIMA were comparable in terms of metrics.
+
+
+- The advantage of RNN is the flexibility in terms of input data, which, if selected correctly, can improve model quality.
+
+
+- This may be relevant to improve the quality of long-term forecasting.
+
+
+- The use of quarterly financial statements deteriorates the quality of models based on daily quotes.
+
+
+- The use of clustering based on the correlation between the quotations of companies is a good tool for identifying groups of homogeneous companies.
+
+
+- Moreover, this homogeneity allows using a model trained by a central company to generate forecasts of related companies with some quality.
+
+
+- In general, based on the correlation matrix, it is possible to create more flexible group variants (for example, companies with negative correlation), which makes it possible to create some specific portfolios
+
+
+## Future Work
+
+- Improve models metrics by adding macro-data and commodities with testing on specific sectors
+
+
+- Generate more specific clusters in style of Optimal Portfolio
+
+
+- Works with composite indexes
